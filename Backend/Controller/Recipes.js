@@ -40,20 +40,39 @@ exports.findRecipe = async(req,res)=>{
     })
 }
 
-exports.editRecipe = async(req,res)=>{
-    const {title,ingredients,instructions,time} = req.body
-    let recipefind = await recipe.findById(req.params.id)
+exports.editRecipe = async (req, res) => {
     try {
-        if(recipefind){
-    const editRecipe = await recipe.findByIdAndUpdate(req.params.id,req.body,{new:true})
-    return res.status(200).json({
-        success:true,
-        message:"Recipe updated successfully"
-    })
-    }
+        const recipeFind = await recipe.findById(req.params.id);
+
+        if (!recipeFind) {
+            return res.status(404).json({
+                success: false,
+                message: "Recipe not found"
+            });
+        }
+
+        const updatedRecipe = await recipe.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            { new: true }
+        );
+
+        return res.status(200).json({
+            success: true,
+            message: "Recipe updated successfully",
+            recipe: updatedRecipe
+        });
+
     } catch (error) {
-        console.log("Something went wrong")
-        console.log(error)
+        console.error("Error while updating recipe:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Something went wrong",
+            error: error.message
+        });
     }
+};
+
+exports.deleteRecipe = async(req,res)=>{
     
 }
