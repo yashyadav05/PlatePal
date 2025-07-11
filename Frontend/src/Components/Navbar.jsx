@@ -10,11 +10,13 @@ export default function Navbar() {
   const [isLogin, setIsLogin] = useState(token ? false : true);
 
   useEffect(()=>{
-    setIsLogin(token ? false : true)
-  },[token])
+    const tokens = localStorage.getItem("token");
+    setIsLogin(tokens ? false : true)
+  },[])
 
   const checkLogin = () => {
-    if(token){
+    let currentToken = localStorage.getItem("token")
+    if(currentToken){
       localStorage.removeItem("token")
       localStorage.removeItem("user")
       setIsLogin(true)
@@ -41,11 +43,21 @@ export default function Navbar() {
             <li className="text-gray-600 hover:text-blue-500 cursor-pointer">
               <NavLink to={"/"}>Home</NavLink>
             </li>
-            <li onClick={()=>isLogin && setIsOpen(true)} className="text-gray-600 hover:text-blue-500 cursor-pointer">
-              <NavLink to={isLogin ? "/myRecipe" : "/"}>My Recipe</NavLink>
+            <li className="text-gray-600 hover:text-blue-500 cursor-pointer">
+              <NavLink to={"/myRecipe"} onClick={(e)=>{
+                if(isLogin){
+                  e.preventDefault() // Stop route change
+                  setIsOpen(true) // Open modal
+                }
+              }}>My Recipe</NavLink>
             </li>
-            <li onClick={()=>isLogin && setIsOpen(true)} className="text-gray-600 hover:text-blue-500 cursor-pointer">
-              <NavLink to={isLogin ? "/favRecipe" : "/"}>Favourites</NavLink>
+            <li className="text-gray-600 hover:text-blue-500 cursor-pointer">
+              <NavLink to={"/favRecipe"} onClick={(e)=>{
+                if(isLogin){
+                  e.preventDefault()
+                  setIsOpen(true)
+                }
+              }}>Favourites</NavLink>
             </li>
             <li
               className="text-gray-600 hover:text-blue-500 cursor-pointer"
