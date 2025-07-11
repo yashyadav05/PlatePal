@@ -53,7 +53,7 @@ exports.login = async (req, res) => {
     }
     //checking user
     let user = await User.findOne({ email });
-    if(user && bcrypt.compare(password,user.password)){
+    if(user && await bcrypt.compare(password,user.password)){
         let token = jwt.sign({email,id:user._id},process.env.SECRET_KEY)
         return res.status(200).json({
         success: true,
@@ -63,7 +63,8 @@ exports.login = async (req, res) => {
     } else{
          return res.status(400).json({
             success:false,
-            message:"User not exist"
+            message:"User not exist",
+            error:"Invalid credentials"
         })
     }
 };
