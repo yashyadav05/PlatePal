@@ -2,8 +2,25 @@ import React from 'react';
 import Navbar from '../Components/Navbar';
 import Footer from '../Components/Footer';
 import RecipeItem from '../Components/RecipeItem';
+import { useLoaderData, useLocation, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import Modal from '../Components/Modal';
+import InputForm from '../Components/InputForm';
 
 export default function Home() {
+  const allRecipeItems = useLoaderData();
+  const navigate = useNavigate()
+  const location = useLocation()
+  const [isOpen,setIsOpen] = useState(false)
+  const addRecipe = ()=>{
+    let token = localStorage.getItem("token")
+    if(token){
+       navigate("/addRecipe")
+    }else{
+      setIsOpen(true)
+    }
+        
+  }
   return (
     <>
     <div className="min-h-screen flex flex-col">
@@ -16,7 +33,7 @@ export default function Home() {
             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Labore accusantium itaque sequi eum,
             distinctio cupiditate libero iusto eos earum doloribus saepe blanditiis dolor placeat aliquid.
           </p>
-          <button className='h-10 w-40 bg-black text-white rounded-md mt-3'>Share you're recipe</button>
+          <button onClick={addRecipe} className='h-10 w-40 bg-black text-white rounded-md mt-3'>Share you're recipe</button>
         </div>
 
         {/* Right Image */}
@@ -39,10 +56,16 @@ export default function Home() {
           ></path>
         </svg>
       </div>
+       {isOpen && (
+              <Modal onClose={() => setIsOpen(false)}>
+                {" "}
+                <InputForm setIsOpen={() => setIsOpen(false)} />
+              </Modal>
+            )}
     </div>
     
     <div>
-      <RecipeItem/>
+      <RecipeItem allRecipeItems = {allRecipeItems}/>
     </div>
     </>
   );

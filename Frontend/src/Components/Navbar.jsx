@@ -8,11 +8,12 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   let token = localStorage.getItem("token");
   const [isLogin, setIsLogin] = useState(token ? false : true);
+   let user = JSON.parse(localStorage.getItem("user"))
 
   useEffect(()=>{
     const tokens = localStorage.getItem("token");
     setIsLogin(tokens ? false : true)
-  },[])
+  },[token])
 
   const checkLogin = () => {
     let currentToken = localStorage.getItem("token")
@@ -63,7 +64,7 @@ export default function Navbar() {
               className="text-gray-600 hover:text-blue-500 cursor-pointer"
               onClick={checkLogin}
             >
-             {(isLogin)? "Login":"Logout"}
+             {(isLogin)? "Login":"Logout"}{user?.email ? `(${user.email})` : "" }
             </li>
           </ul>
         </div>

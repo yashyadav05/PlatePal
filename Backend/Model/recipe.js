@@ -6,11 +6,11 @@ const recipeSchema = new mongoose.Schema({
         required:true
    },
    ingredients:{
-        type:String,
+         type: [String],
         required:true
    },
    instructions:{
-        type:String,
+        type: [String],
         required:true
    },
    image:{
@@ -19,6 +19,10 @@ const recipeSchema = new mongoose.Schema({
    time:{
         type:String,
         required:true
+   },
+   createdBy:{
+         type:mongoose.Schema.Types.ObjectId,
+         ref:"User"
    },
 },{timestamps:true})
 

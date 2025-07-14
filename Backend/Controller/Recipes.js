@@ -1,10 +1,29 @@
+const multer  = require('multer')
 const recipe = require("../Model/recipe")
+const path = require("path");
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    //if issue change this to this 
+    // cb(null,  "../Public/Images")
+    cb(null, path.join(__dirname, "../Public/Images"))
+  },
+  filename: function (req, file, cb) {
+    const filename = Date.now() + '-' + file.fieldname
+    cb(null, filename)
+  }
+})
+
+const upload = multer({ storage })
+exports.uploads = upload;
+// console.log(upload)
 
 exports.addRecipes = async(req,res)=>{
     //Fetching details
+    console.log(req.user)
      const {title,ingredients,instructions,time} = req.body
      //checking form details
-     if(!title||!ingredients||!instructions||!time){
+     if(!title||!ingredients||!instructions){
         return res.status(400).json({
             success:false,
             message:"Please fill the form"
@@ -12,7 +31,12 @@ exports.addRecipes = async(req,res)=>{
      }
 
      const create = await recipe.create({
-        title,ingredients,instructions,time
+        title, 
+        ingredients,     // already an array
+        instructions, 
+        time,
+        image: req.file?.filename || "" ,
+        createdBy:req.user.id
      })
 
      return res.status(200).json({
