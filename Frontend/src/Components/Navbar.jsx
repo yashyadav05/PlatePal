@@ -1,77 +1,95 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "./Modal";
 import InputForm from "./InputForm";
 import { NavLink } from "react-router-dom";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  let token = localStorage.getItem("token");
-  const [isLogin, setIsLogin] = useState(token ? false : true);
-   let user = JSON.parse(localStorage.getItem("user"))
+  const token = localStorage.getItem("token");
+  const [isLogin, setIsLogin] = useState(!token);
+  const user = JSON.parse(localStorage.getItem("user"));
 
-  useEffect(()=>{
+  useEffect(() => {
     const tokens = localStorage.getItem("token");
-    setIsLogin(tokens ? false : true)
-  },[token])
+    setIsLogin(!tokens);
+  }, [token]);
 
   const checkLogin = () => {
-    let currentToken = localStorage.getItem("token")
-    if(currentToken){
-      localStorage.removeItem("token")
-      localStorage.removeItem("user")
-      setIsLogin(true)
-    }else{
-    setIsOpen(true);
-    console.log(isOpen);
+    const currentToken = localStorage.getItem("token");
+    if (currentToken) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      setIsLogin(true);
+    } else {
+      setIsOpen(true);
     }
-    
   };
 
   return (
     <>
-      <header className="bg-white shadow-md py-4 px-6 fixed top-0 left-0 right-0 z-50">
-        <div className="max-w-6xl mx-auto flex justify-between items-center">
-          {/* Logo */}
-          <h2 className="text-2xl font-bold text-gray-800">
-            Plate<span className="text-blue-500">Pal</span>
+      <header className="bg-white shadow-sm py-3 px-4 fixed top-0 left-0 right-0 z-50">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
+          <h2 className="text-3xl font-bold text-gray-800">
+            Plate<span className="text-blue-600">Pal</span>
           </h2>
 
-          {/* Navigation Links */}
-          <ul className="hidden md:flex space-x-6">
-            {" "}
-            {/* NavLink to="/"  another way try it */}
-            <li className="text-gray-600 hover:text-blue-500 cursor-pointer">
-              <NavLink to={"/"}>Home</NavLink>
+          <ul className="hidden md:flex space-x-8 text-[17px] font-medium">
+            <li>
+              <NavLink
+                to="/"
+                className="text-gray-700 hover:text-blue-600 transition"
+              >
+                Home
+              </NavLink>
             </li>
-            <li className="text-gray-600 hover:text-blue-500 cursor-pointer">
-              <NavLink to={"/myRecipe"} onClick={(e)=>{
-                if(isLogin){
-                  e.preventDefault() // Stop route change
-                  setIsOpen(true) // Open modal
-                }
-              }}>My Recipe</NavLink>
+
+            <li>
+              <NavLink
+                to="/myRecipe"
+                onClick={(e) => {
+                  if (isLogin) {
+                    e.preventDefault();
+                    setIsOpen(true);
+                  }
+                }}
+                className="text-gray-700 hover:text-blue-600 transition"
+              >
+                My Recipe
+              </NavLink>
             </li>
-            <li className="text-gray-600 hover:text-blue-500 cursor-pointer">
-              <NavLink to={"/favRecipe"} onClick={(e)=>{
-                if(isLogin){
-                  e.preventDefault()
-                  setIsOpen(true)
-                }
-              }}>Favourites</NavLink>
+
+            <li>
+              <NavLink
+                to="/favRecipe"
+                onClick={(e) => {
+                  if (isLogin) {
+                    e.preventDefault();
+                    setIsOpen(true);
+                  }
+                }}
+                className="text-gray-700 hover:text-blue-600 transition"
+              >
+                Favourites
+              </NavLink>
             </li>
+
             <li
-              className="text-gray-600 hover:text-blue-500 cursor-pointer"
+              className="text-gray-700 hover:text-blue-600 transition cursor-pointer"
               onClick={checkLogin}
             >
-             {(isLogin)? "Login":"Logout"}{user?.email ? `(${user.email})` : "" }
+              {isLogin ? "Login" : "Logout"}
+              {user?.email && (
+                <span className="ml-1 text-sm text-gray-500 font-normal">
+                  ({user.email})
+                </span>
+              )}
             </li>
           </ul>
         </div>
       </header>
+
       {isOpen && (
         <Modal onClose={() => setIsOpen(false)}>
-          {" "}
           <InputForm setIsOpen={() => setIsOpen(false)} />
         </Modal>
       )}

@@ -25,6 +25,7 @@ exports.signUp = async (req, res) => {
     let newUser = await User.create({ email, password: hashPassword });
     //payload generate
     let token = jwt.sign({email,id:newUser._id},process.env.SECRET_KEY)
+    console.log(token)
     return res.status(200).json({
       success: true,
       message: "User created Successfully",

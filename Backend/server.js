@@ -24,7 +24,7 @@ app.get("/",(req,res)=>{
 })
 
 //connect to route
-app.use("/api/v1",Routes)
-app.use("/api/v1",UserRoute)
+app.use("/recipe",Routes)
+app.use("/",UserRoute)
 
 app.listen(PORT,()=>console.log(`Server is connected to http://localhost:${PORT}`))
