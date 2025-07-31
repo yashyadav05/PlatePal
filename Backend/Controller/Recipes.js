@@ -19,11 +19,7 @@ exports.uploads = upload;
 // console.log(upload)
 
 exports.addRecipe = async(req,res)=>{
-    //Fetching details
-    console.log(req.user)
      const {title,ingredients,instructions,time} = req.body
-     console.log("req to add recipe " ,req.body)
-     //checking form details
      if(!title||!ingredients||!instructions){
         return res.status(400).json({
             success:false,
@@ -78,45 +74,6 @@ exports.editRecipe = async (req, res) => {
     } catch (err) {
          return res.status(404).json({message:err})
     }
-    // try {
-    //     console.log("edit request",req.body)
-    //     const recipeFind = await recipe.findById(req.params.id);
-    //     console.log("recipe id to edit ",req.params.id)
-
-    //     if (!recipeFind) {
-    //         return res.status(404).json({
-    //             success: false,
-    //             message: "Recipe not found"
-    //         });
-    //     }
-
-    //     const updateData = {
-    //         ...req.body,
-    //     }
-    //     if(req.file){
-    //         updateData.image = req.file.filename
-    //     }
-
-    //     const updatedRecipe = await recipe.findByIdAndUpdate(
-    //         req.params.id,
-    //         updateData,
-    //         { new: true }
-    //     );
-
-    //     return res.status(200).json({
-    //         success: true,
-    //         message: "Recipe updated successfully",
-    //         recipe: updatedRecipe
-    //     });
-
-    // } catch (error) {
-    //     console.error("Error while updating recipe:", error);
-    //     return res.status(500).json({
-    //         success: false,
-    //         message: "Something went wrong",
-    //         error: error.message
-    //     });
-    // }
 };
 
 exports.deleteRecipe = async(req,res)=>{
