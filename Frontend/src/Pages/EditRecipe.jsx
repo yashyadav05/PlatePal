@@ -10,7 +10,7 @@ export default function EditRecipe() {
 
     useEffect(()=>{
        const getData = async()=>{
-        await axios.get(`http://localhost:4000/recipe/${id}`)
+        await axios.get(`https://platepal-sxnu.onrender.com/recipe/${id}`)
         .then(response =>{
           let res = response.data
           setRecipeData({
@@ -27,7 +27,7 @@ export default function EditRecipe() {
     const onHandleSubmit = async(e)=>{
         e.preventDefault()
         console.log("Onsubmit Recipe data",recipeData)
-        await axios.put(`http://localhost:4000/recipe/${id}`,recipeData,{
+        await axios.put(`https://platepal-sxnu.onrender.com/recipe/${id}`,recipeData,{
           headers:{
                  "Content-Type" : 'multipart/form-data',
                  "authorization": "bearer " + localStorage.getItem("token")

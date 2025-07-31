@@ -10,7 +10,7 @@ export default function AddFoodRecipe() {
     e.preventDefault();
     console.log(recipeData);
     await axios
-      .post("http://localhost:4000/recipe/", recipeData, {
+      .post("https://platepal-sxnu.onrender.com/recipe/", recipeData, {
         headers: {
           "Content-Type": "multipart/form-data",
           authorization: "bearer " + localStorage.getItem("token"),

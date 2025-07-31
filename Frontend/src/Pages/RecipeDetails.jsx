@@ -14,7 +14,7 @@ export default function RecipeDetails() {
         </div>
         <div>
             <h3>{recipe.title}</h3>
-            <img src={`http://localhost:4000/Images/${recipe.coverImage}`} alt="" />
+            <img src={`https://platepal-sxnu.onrender.com/Images/${recipe.coverImage}`} alt="" />
             <div>
                 <div><h4>Ingredients</h4><ul>{recipe.ingredients.map(item=>(<li>{item}</li>))}</ul></div>
                 <div><h4>Instructions</h4><span>{recipe.instructions}</span></div>

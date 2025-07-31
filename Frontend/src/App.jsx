@@ -9,7 +9,7 @@ import RecipeDetails from './Pages/RecipeDetails'
 
 const getRecipeItem = async()=>{
      let allRecipes = []
-     await axios.get('http://localhost:4000/recipe').then(res=>{
+     await axios.get('https://platepal-sxnu.onrender.com/recipe').then(res=>{
       allRecipes = res.data.getRecipe  || []  // fix here
       console.log("API response:", res.data)
       console.log("Recipes:", res.data.recipes)
@@ -36,9 +36,9 @@ const getFavRecipes =()=>{
 
 const getRecipes =async({params})=>{
  let recipe;
- await axios.get(`http://localhost:4000/recipe/${params.id}`)
+ await axios.get(`https://platepal-sxnu.onrender.com/recipe/${params.id}`)
  .then(res=>recipe=res.data)
- await axios.get(`http://localhost:5000/user/${recipe.createdBy}`)
+ await axios.get(`https://platepal-sxnu.onrender.com/user/${recipe.createdBy}`)
  .then(res=>{
   recipe={...recipe,email:res.data.email}
  })

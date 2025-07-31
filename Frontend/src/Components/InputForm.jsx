@@ -12,7 +12,7 @@ export default function InputForm({ setIsOpen }) {
     let endpoint = isSignup ? "signup" : "login";
 
     await axios
-      .post(`http://localhost:4000/${endpoint}`, { email, password })
+      .post(`https://platepal-sxnu.onrender.com/${endpoint}`, { email, password })
       .then((res) => {
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("user", JSON.stringify(res.data.user));

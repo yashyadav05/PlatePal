@@ -19,7 +19,7 @@ export default function RecipeItem() {
   }, [recipes]);
 
   const onDelete = async (id) => {
-    await axios.delete(`http://localhost:4000/recipe/${id}`);
+    await axios.delete(`https://platepal-sxnu.onrender.com/recipe/${id}`);
     setAllRecipeItems((recipes) => recipes.filter((recipe) => recipe._id !== id));
     const filteredFavs = favItems.filter((recipe) => recipe._id !== id);
     localStorage.setItem("fav", JSON.stringify(filteredFavs));
@@ -47,7 +47,7 @@ export default function RecipeItem() {
             >
               {/* Recipe Image */}
               <img
-                src={`http://localhost:4000/Images/${item.coverImage}`}
+                src={`https://platepal-sxnu.onrender.com/Images/${item.coverImage}`}
                 alt={item.title}
                 className="h-28 w-32 object-cover rounded-xl border border-gray-200"
               />
