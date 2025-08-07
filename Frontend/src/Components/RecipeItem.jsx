@@ -1,35 +1,40 @@
-import { useEffect, useState } from 'react';
-import { Link, useLoaderData, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import { Link, useLoaderData, useNavigate } from "react-router-dom";
 import { FaStopwatch } from "react-icons/fa6";
 import { FaRegEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { FaRegHeart } from "react-icons/fa";
-import axios from 'axios';
+import { useAppContext } from "../Context/AppContext";
 
 export default function RecipeItem() {
   const recipes = useLoaderData();
-  const [allRecipeItems, setAllRecipeItems] = useState();
+  const [allRecipeItems, setAllRecipeItems] = useState([]);
   let favItems = JSON.parse(localStorage.getItem("fav")) ?? [];
-  const path = window.location.pathname === '/myRecipe';
+  const path = window.location.pathname === "/myRecipe";
   const [isFavRecipe, setIsFavRecipe] = useState(false);
   const navigate = useNavigate();
+  const { axios } = useAppContext();
 
   useEffect(() => {
     setAllRecipeItems(recipes);
   }, [recipes]);
 
   const onDelete = async (id) => {
-    await axios.delete(`https://platepal-sxnu.onrender.com/recipe/${id}`);
-    setAllRecipeItems((recipes) => recipes.filter((recipe) => recipe._id !== id));
+    await axios.delete(`/recipe/${id}`);
+    setAllRecipeItems((recipes) =>
+      recipes.filter((recipe) => recipe._id !== id)
+    );
     const filteredFavs = favItems.filter((recipe) => recipe._id !== id);
     localStorage.setItem("fav", JSON.stringify(filteredFavs));
   };
 
   const favRecipe = async (item) => {
-    let filtered = favItems.filter(recipe => recipe._id !== item._id);
-    favItems = favItems.some(recipe => recipe._id === item._id) ? filtered : [...favItems, item];
+    let filtered = favItems.filter((recipe) => recipe._id !== item._id);
+    favItems = favItems.some((recipe) => recipe._id === item._id)
+      ? filtered
+      : [...favItems, item];
     localStorage.setItem("fav", JSON.stringify(favItems));
-    setIsFavRecipe(prev => !prev);
+    setIsFavRecipe((prev) => !prev);
   };
 
   return (
@@ -41,13 +46,14 @@ export default function RecipeItem() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 max-w-7xl mx-auto">
         {Array.isArray(allRecipeItems) && allRecipeItems.length > 0 ? (
           allRecipeItems.map((item, index) => (
-            <div
+            <Link
               key={item._id || index}
+              to={`/recipe/${item._id}`}
               className="bg-white rounded-2xl shadow-lg p-4 flex gap-4 items-start hover:shadow-xl transition-all duration-300"
             >
               {/* Recipe Image */}
               <img
-                src={`https://platepal-sxnu.onrender.com/Images/${item.coverImage}`}
+                src={item.coverImage || item.image}
                 alt={item.title}
                 className="h-28 w-32 object-cover rounded-xl border border-gray-200"
               />
@@ -67,9 +73,15 @@ export default function RecipeItem() {
                   {/* Action Buttons */}
                   {!path ? (
                     <FaRegHeart
-                      onClick={() => favRecipe(item)}
+                      onClick={(e) => {
+                        e.preventDefault(); // Prevent <Link> navigation
+                        e.stopPropagation(); // Stop event from bubbling up
+                        favRecipe(item);
+                      }}
                       style={{
-                        color: favItems.some(res => res._id === item._id) ? "red" : "black"
+                        color: favItems.some((res) => res._id === item._id)
+                          ? "red"
+                          : "black",
                       }}
                       className="cursor-pointer hover:scale-110 transition"
                     />
@@ -86,10 +98,12 @@ export default function RecipeItem() {
                   )}
                 </div>
               </div>
-            </div>
+            </Link>
           ))
         ) : (
-          <p className="text-center text-gray-500 col-span-full">No recipes to display</p>
+          <p className="text-center text-gray-500 col-span-full">
+            No recipes to display
+          </p>
         )}
       </div>
     </div>

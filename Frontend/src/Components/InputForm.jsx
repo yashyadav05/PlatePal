@@ -1,18 +1,20 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useAppContext } from "../Context/AppContext";
 
 export default function InputForm({ setIsOpen }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSignup, setIsSignup] = useState(false);
   const [error, setError] = useState("");
+  const {axios} = useAppContext()
 
   const formsubmit = async (e) => {
     e.preventDefault();
     let endpoint = isSignup ? "signup" : "login";
 
     await axios
-      .post(`https://platepal-sxnu.onrender.com/${endpoint}`, { email, password })
+      .post(`/${endpoint}`, { email, password })
       .then((res) => {
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("user", JSON.stringify(res.data.user));

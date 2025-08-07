@@ -1,16 +1,17 @@
-import axios from "axios"
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
+import { useAppContext } from "../Context/AppContext"
 
 
 export default function EditRecipe() {
     const [recipeData,setRecipeData] = useState({})
     let navigate = useNavigate()
     const {id} = useParams()
+    const {axios} = useAppContext()
 
     useEffect(()=>{
        const getData = async()=>{
-        await axios.get(`https://platepal-sxnu.onrender.com/recipe/${id}`)
+        await axios.get(`/recipe/${id}`)
         .then(response =>{
           let res = response.data
           setRecipeData({
@@ -27,7 +28,7 @@ export default function EditRecipe() {
     const onHandleSubmit = async(e)=>{
         e.preventDefault()
         console.log("Onsubmit Recipe data",recipeData)
-        await axios.put(`https://platepal-sxnu.onrender.com/recipe/${id}`,recipeData,{
+        await axios.put(`/${id}`,recipeData,{
           headers:{
                  "Content-Type" : 'multipart/form-data',
                  "authorization": "bearer " + localStorage.getItem("token")
