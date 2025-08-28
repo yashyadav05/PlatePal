@@ -6,8 +6,8 @@ const jwt = require("jsonwebtoken");
 //Signup Route
 exports.signUp = async (req, res) => {
   try {
-    const { email, password } = req.body;
-    if (!email || !password) {
+    const { name,email, password } = req.body;
+    if (!name||!email || !password) {
       return res.status(400).json({
         success: false,
         message: "Please fill the details",
@@ -22,7 +22,7 @@ exports.signUp = async (req, res) => {
     //password hashing
     const hashPassword =await bcrypt.hash(password, 10);
     //user created successfully
-    let newUser = await User.create({ email, password: hashPassword });
+    let newUser = await User.create({name, email, password: hashPassword });
     //payload generate
     let token = jwt.sign({email,id:newUser._id},process.env.SECRET_KEY)
     console.log(token)

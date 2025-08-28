@@ -108,11 +108,11 @@ export default function Navbar() {
                 <div className="hidden xl:flex items-center space-x-2 bg-gray-50 px-3 py-2 rounded-full">
                   <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
                     <span className="text-white text-sm font-bold">
-                      {user.email.charAt(0).toUpperCase()}
+                      {user.name.charAt(0).toUpperCase()}
                     </span>
                   </div>
                   <span className="text-sm text-gray-600 font-medium truncate max-w-32">
-                    {user.email}
+                    {user.name}
                   </span>
                 </div>
               )}

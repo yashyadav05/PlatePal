@@ -56,7 +56,7 @@ export default function Home() {
                 </svg>
               </button>
               
-              <button className="border-2 border-gray-300 hover:border-blue-500 text-gray-700 hover:text-blue-600 px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:bg-blue-50">
+              <button onClick={() => navigate("/")}  className="border-2 border-gray-300 hover:border-blue-500 text-gray-700 hover:text-blue-600 px-8 py-4 rounded-xl font-semibold transition-all duration-300 hover:bg-blue-50">
                 Explore Recipes
               </button>
             </div>

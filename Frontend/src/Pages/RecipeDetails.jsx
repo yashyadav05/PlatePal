@@ -4,21 +4,26 @@ import Profile from '../assets/image.png';
 
 export default function RecipeDetails() {
   const recipe = useLoaderData();
-  console.log(recipe);
+  const user = JSON.parse(localStorage.getItem("user"));
 
   return (
     <div className="bg-gray-50 min-h-screen py-30 px-4 sm:px-8">
       {/* Header Section */}
       <div className="max-w-4xl mx-auto bg-white p-6 rounded-2xl shadow-md mb-8">
         <div className="flex items-center gap-4">
-          <img
+          {/* <img
             src={Profile}
             alt="User Profile"
             className="h-14 w-14 rounded-full border border-gray-300 object-cover"
-          />
+          /> */}
+                     <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
+                    <span className="text-white text-sm font-bold">
+                      {user.name.charAt(0).toUpperCase()}
+                    </span>
+                  </div>
           <div>
             <p className="text-gray-600 text-sm">Recipe by</p>
-            <h5 className="text-lg font-semibold text-gray-800">{recipe.email}</h5>
+            <h5 className="text-lg font-semibold text-gray-800">{user.name}</h5>
           </div>
         </div>
       </div>
