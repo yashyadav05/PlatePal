@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Modal from "./Modal";
 import InputForm from "./InputForm";
-import { NavLink } from "react-router-dom";
+import {  NavLink, useNavigate } from "react-router-dom";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -9,6 +9,7 @@ export default function Navbar() {
   const token = localStorage.getItem("token");
   const [isLogin, setIsLogin] = useState(!token);
   const user = JSON.parse(localStorage.getItem("user"));
+  const navigate = useNavigate()
 
   useEffect(() => {
     const tokens = localStorage.getItem("token");
@@ -32,7 +33,7 @@ export default function Navbar() {
       <header className="bg-white/95 backdrop-blur-md shadow-lg py-4 px-4 fixed top-0 left-0 right-0 z-50 border-b border-gray-100">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           {/* Logo */}
-          <div className="flex items-center">
+          <div onClick={() => navigate("/")}  className="flex items-center cursor-pointer">
             <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">
               <span className="inline-block transform hover:scale-110 transition-transform cursor-pointer">
                 🍽️

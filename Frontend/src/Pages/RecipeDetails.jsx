@@ -35,7 +35,7 @@ export default function RecipeDetails() {
         <img
           src={recipe.coverImage}
           alt={recipe.title}
-          className="w-full h-64 object-cover rounded-xl border mb-8"
+          className="w-full h-80 object-cover rounded-xl border mb-8"
         />
 
         {/* Ingredients */}
